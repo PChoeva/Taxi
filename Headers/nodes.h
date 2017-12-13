@@ -1,12 +1,3 @@
-/*
- * -----nice idea for development-----
- * създава се масив от обекти link(спирка, спирка, разстояние);
- * при въвеждане на маршрут, последователността се пази
- * (примерно в масив sequence/order)
- * чрез цикъл се използва последователността
- * и се проверява разстояние м/у сегашна и следваща спирка
- */
-
 #include<string>
 #ifndef NODES_H
 #define NODES_H
@@ -17,10 +8,12 @@ class node{
 		string name;
 	public:
 		node();
+		node(int i, string n);
 		~node();
 		void readConsole(int lastId);
 		//void printConsole();
 		//void printToFile();
+		friend ostream &operator<<(ostream &out, node &n);
 		
 		void set_id(int id);
 		void set_name(string n);

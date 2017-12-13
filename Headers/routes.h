@@ -4,7 +4,7 @@
 
 #ifndef ROUTES_H
 #define ROUTES_H
-//възлови точки, колко км е дълъг, колко пъти на ден се обикаля
+
 class route{
 	private:
 		vector<node> nodes;
@@ -13,9 +13,10 @@ class route{
 		int laps;
 	public:
 		route();
-		//route(FILE *);
+		route(vector<node> n, double len, int l);
 		~route();
 		void readConsole(vector<node> allNodes);
+		friend ostream &operator<<(ostream &out,route &r);
 		//void printConsole();
 		
 		void set_nodes(vector<node> n);

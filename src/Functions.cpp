@@ -11,6 +11,17 @@ using namespace std;
 vector<car> cars;
 vector<route> routes;
 vector<node> nodes;
+
+
+ostream &operator<<(ostream &out, car &c)
+{
+	out<<c.brand<<"| "<<c.model<<" | "<<c.years
+			<<" | "<<c.seats<<" | "<<c.loadCapasity
+			<<" | "<<c.fuelConsumption<<endl;
+	return out;
+}
+
+//Add Cars
 void addCar()
 {
 	car c;
@@ -27,9 +38,23 @@ void showAllCars()
 {
 	for(int i=0;i<cars.size();i++)
 	{
-		cout<<"Car "<<i+1<<": "<<cars[i].get_brand()<<" | "<<cars[i].get_model()<<" | "<<cars[i].get_years()<<" | "<<cars[i].get_seats()<<" | "<<cars[i].get_loadCapasity()<<" | "<<cars[i].get_fuelConsumption()<<endl;
+		cout<<"Car "<<i+1<<": "<<cars[i];
 	}
 }
+void saveCarsToFile()
+{
+	ofstream outfile("cars.txt");//, ios::out);
+		for(int i=0;i<cars.size();i++)
+		{
+			cout<<"Save cars to file";
+			outfile<<cars[i];
+		}
+	outfile.close();
+}
+
+
+
+//Routes
 void addRoute()
 {
 	route r;
@@ -50,6 +75,7 @@ void addRoute()
 	}
 
 }
+//Show routes
 void showAllRoutes()
 {
 	vector<node> ns;
@@ -70,85 +96,75 @@ void showAllRoutes()
 		cout<<"========================="<<endl;
 	}
 }
+
+//Redefine <<
+ostream &operator<<(ostream &out,route &r)
+{
+	for(int k=0;k<r.nodes.size();k++)
+	{
+		out<<r.nodes[k].get_id()<<" "<<r.nodes[k].get_name()<<" ";
+		cout<<"write a single node"<<endl;
+	}
+	out<<"|"<<r.length<<"|"<<r.laps<<endl;
+	cout<<"end with writing into the file"<<endl;
+	return out;
+}
 void saveRoutesToFile()
 {
 	ofstream outfile("routes.txt", ios::out);
 	cout<<"Save to file"<<endl;
 	for(int i=0;i<routes.size();i++)
 	{
-
-		for(int k=0;k<routes[i].get_nodes().size();k++)
-		{
-			outfile<<routes[i].get_nodes()[k].get_id()<<" ";
-			cout<<"write a single node"<<endl;
-		}
-		outfile<<"|"<<routes[i].get_length()<<"|"<<routes[i].get_laps()<<endl;
-		cout<<"end with writing into the file"<<endl;
+		outfile<<routes[i];
 	}
+	outfile.close();
 }
 void readRoutesFromFile()
 {
-	int length,laps,k=0;
-	vector< vector<int> > stops;//масив с ид номерата на спирките
-	char delimiter='|';
-	int c;
 	ifstream infile("routes.txt", ios::in);
-	cout<<"Read file routes"<<endl;
-	for(int i=0;i<routes.size();i++)
+	char delimiter = '|';
+	int i = 0;
+	cout<<"read routes.txt"<<endl;
+	while(!infile.eof()) // For every route
 	{
-		cout<<"for 1"<<endl;
-		vector<int> temp;
+		vector<node> tempnodes;
+		int len;
+		int laps;
+		route temproute;
+		//routes.clear();
+		int k = 0;
 
-		while(infile.peek()!=delimiter && infile.peek()!=-1/*>>delimiter && delimiter==' '*/)// '|'
+		while((infile.peek() != delimiter) && (infile.peek() != -1)) // For Every Node
 		{
-			if(infile.peek()==32)
+			if(infile.peek() == ' ')
 			{
 				infile.get();
 				continue;
 			}
-			cout<<"Peek:"<<infile.peek()<<endl;
-			cout<<"for 2 - read nodes from file"<<endl;
-			infile>>c;
-			temp.push_back(c);
-
-			k++;
-			cout<<"for 2 - end of while"<<endl;
+			int nodeId;
+			string nodeName;
+			node tempnode;
+			infile >> nodeId;
+			infile >> nodeName;
+			tempnode.set_id(nodeId);
+			tempnode.set_name(nodeName);
+			tempnodes.push_back(tempnode);
 		}
-		stops.push_back(temp);
-		cout<<"Print stops:"<<endl;
-		for(int r=0;r<stops[i].size();r++)
-		{
-			cout<<stops[i][r]<<" ";
-		}
-//		cout<<"continue reading from file"<<endl;
-		infile>>delimiter>>length>>delimiter>>laps;
-//		cout<<"length:"<<length<<endl;
-//		cout<<"laps:"<<laps<<endl;
+		infile.get();
+		infile >> len;
+		infile.get();
+		infile >> laps;
+		infile.get();
 
-		cout<<"---Try to print nodes from 2D vector---"<<endl;
-		for(int p=0;p<stops.size();p++)
-		{
-			cout<<"loop 1-out"<<endl;
-			for(int y=0;y<stops[p].size();y++)
-			{
-				cout<<"loop2-in"<<endl;
-				cout<<stops[p][y]<<" /";
-			}
-		}
-
-		routes[i].set_length(length);
-
-		routes[i].set_laps(laps);
-
-		cout<<"print route "<<i<<": ";
-		for(int j=0;j<stops[i].size();j++)
-		{
-			cout<<routes[i].get_nodes()[j].get_id()<<" "<<routes[i].get_nodes()[j].get_name()<<" ";
-		}
-
-		cout<<delimiter<<length<<" "<<delimiter<<" "<<laps<<endl;
+		temproute.set_nodes(tempnodes);
+		temproute.set_length(len);
+		temproute.set_laps(laps);
+		routes.push_back(temproute);
 	}
+	infile.close();
+	cout<<"finished reading routes.txt"<<endl;
 }
+//Add Notes
 void addNode()
 {
 	node n;
@@ -172,17 +188,25 @@ void showAllNodes()
 {
 	for(int i=0;i<nodes.size();i++)
 		{
-			cout<<nodes[i].get_id()<<" | "<<nodes[i].get_name()<<endl;
+			cout<<nodes[i];
 		}
+}
+
+//Redefine <<
+ostream &operator<<(ostream &out, node &n)
+{
+	out<<n.id<<" | "<<n.name<<endl;
+	return out;
 }
 void saveNodesToFile()
 {
 	ofstream outfile("nodes.txt", ios::out);
-		for(int i=0;i<nodes.size();i++)
-		{
-			cout<<"Save to file";
-			outfile<<nodes[i].get_id()<<" | "<<nodes[i].get_name()<<endl;
-		}
+	for(int i=0;i<nodes.size();i++)
+	{
+		cout<<"Save to file";
+		outfile<<nodes[i];;
+	}
+	outfile.close();
 }
 void readNodesFromFile()
 {
@@ -190,7 +214,7 @@ void readNodesFromFile()
 	string name;
 	char delimiter;
 	ifstream infile("nodes.txt", ios::in);
-	cout<<"Read file"<<endl;
+	cout<<"Read file node"<<endl;
 	for(int i=0;i<nodes.size();i++)
 	{
 		infile>>id>>delimiter>>name;
@@ -198,7 +222,11 @@ void readNodesFromFile()
 		nodes[i].set_name(name);
 		cout<<"print node "<<i<<": "<<id<<delimiter<<" "<<name<<endl;
 	}
+	cout<<"finished reading note.txt"<<endl;
+	infile.close();
 }
+
+//Calculate Fuel Consumption
 void calcFuel()
 {
 	int carId,routeId;
@@ -206,11 +234,4 @@ void calcFuel()
 	cout<<"Enter car id: "; cin>>carId; carId-=1;
 	cout<<"Enter route id: "; cin>>routeId; routeId-=1;
 	cars[carId].calcFuelConsumption(routes[routeId]);
-//	for(int i=0,k=0;i<cars.size(),k<routes.size();i++,k++)
-//	{
-//		if(carId==i && routeId==k)
-//		{
-//			cars[i].calcFuelConsumption(routes[k]);
-//		}
-//	}
 }

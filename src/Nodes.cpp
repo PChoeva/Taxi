@@ -5,14 +5,11 @@
 #include <vector>
 using namespace std;
 
-node::node(){
-//	cout<<"---Bus stop Info---"<<endl;
-//
-//	cout<<"Enter id:";		cin>>id;
-//	cin.clear();fflush(stdin);
-//	cout<<"Enter name:";	getline(cin,name);
-
-
+node::node(){}
+node::node(int i, string n)
+{
+	id = i;
+	name = n;
 }
 node::~node(){}
 //void node::printConsole(){

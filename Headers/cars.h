@@ -13,9 +13,11 @@ class car{
 		double fuelConsumption;
 	public:
 		car();
+		car(string b,string m, int y, int s, int l, double f);
 		~car();
 		void printConsole();
 		void readConsole();
+		friend ostream &operator<<(ostream &out, car &c);
 		void calcFuelConsumption(route r);
 
 		void set_brand(string b);

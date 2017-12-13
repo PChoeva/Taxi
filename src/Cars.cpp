@@ -3,15 +3,15 @@
 using namespace std;
 //marka, model, godini, kolko mestna e, tovaropodemost,razhod gorivo
 car::~car(){}
-car::car()
+car::car(){}
+car::car(string b,string m, int y, int s, int l, double f)
 {
-//	cout<<"---Car Info---"<<endl;
-//	cout<<"Enter brand:";			cin>>brand;
-//	cout<<"Enter model:";			cin>>model;
-//	cout<<"Enter years:";			cin>>years;
-//	cout<<"Enter number of seats:"; cin>>seats;
-//	cout<<"Enter load capasity:";	cin>>loadCapasity;
-//	cout<<"Enter fuel consumption"; cin>>fuelConsumption;
+	brand = b;
+	model = m;
+	years = y;
+	seats = s;
+	loadCapasity = l;
+	fuelConsumption = f;
 }
 void car::printConsole()
 {
@@ -68,9 +68,9 @@ double car::get_fuelConsumption()
 	return fuelConsumption;
 }
 
-
-/*car*/ void car::readConsole(){
+void car::readConsole(){
 	cout<<"---Car Info---"<<endl;
+	cin.ignore();
 	cout<<"Enter brand:";			getline(cin,brand);
 	cout<<"Enter model:";			getline(cin,model);
 	cout<<"Enter years:";			cin>>years;
@@ -80,7 +80,6 @@ double car::get_fuelConsumption()
 }
 void car::calcFuelConsumption(route r)
 {
-	//(len*laps)*fuelConsumption	(разход/100)*км
 	cout<<"---Calculate fuel---\n"<<"car: "<<this->brand<<" | "<<this->model<<" | "<<this->fuelConsumption<<endl;
 	cout<<"Needed fuel:"<<(fuelConsumption/100)*(r.get_length()*r.get_laps())<<endl;
 }

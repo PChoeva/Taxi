@@ -12,6 +12,7 @@ void addRoute(/*vector<route> routes,vector<node> nodes*/);
 void showAllNodes();
 void showAllRoutes();
 void showAllCars();
+void saveCarsToFile();
 void calcFuel();
 
 void saveNodesToFile();

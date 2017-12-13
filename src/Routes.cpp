@@ -4,31 +4,13 @@
 #include "routes.h"
 using namespace std;
 route::~route(){}
-route::route(){
-//четене на много записи от клавиатурата и записване във вектор или ------
-//четене на един запис ++++++
+route::route(){}
+route::route(vector<node> n, double len, int l)
+{
+	nodes = n;
+	length = len;
+	laps = l;
 }
-//vector<node> route::readFromConsole(){
-//	int count = 0;
-//	cout << "Enter the amount of bus stops to add:" << endl;
-//	cin >> count;
-//
-//	//string firstName, lastName;
-//	for(int i = 0; i < count; ++i)
-//	{
-//		node *n = new node();
-//
-//		v.push_back(*n);
-//	}
-//	return v;
-//}
-//void route::printConsole(){
-//	cout<<"---Print all bus stops---"<<endl;
-//	for(int i=0;i<v.size();i++){
-//		v[i].printToFile();
-//		v[i].printConsole();
-//	}
-//}
 //setters
 void route::set_nodes(vector<node> n){
 	nodes = n;
@@ -53,14 +35,17 @@ int route::get_laps(){
 
 void route::readConsole(vector<node> allNodes)
 {
+	//РІРёР¶ cin.ingore();
 		cout<<"---Route Info---"<<endl;
 		cout<<"Enter number of nodes:";
 		int nodesCount; cin>>nodesCount;
+
 		vector<int> nodeIdInput;
 		int nodeId;
 		for(int i=0;i<nodesCount;i++)
 		{
 			cout<<"Enter node "<<i+1<<" id:";
+			//cin.ignore();
 			cin>>nodeId;	nodeIdInput.push_back(nodeId);
 
 		}
@@ -78,7 +63,7 @@ void route::readConsole(vector<node> allNodes)
 		set_nodes(newRouteNodes);
 
 
-		cout<<"Enter length:";		cin>>length;
-		cout<<"Enter laps:";		cin>>laps;
+		cout<<"Enter length:";	/*cin.ignore();*/	cin>>length;
+		cout<<"Enter laps:";	/*cin.ignore();*/	cin>>laps;
 
 }
